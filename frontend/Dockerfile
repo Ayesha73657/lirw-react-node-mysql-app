@@ -21,6 +21,6 @@ RUN rm -rf /var/lib/nginx/html/*
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=build /app/build /var/lib/nginx/html/
+COPY --from=build /app/dist /var/lib/nginx/html/
 
 CMD ["nginx", "-g", "daemon off;"]
