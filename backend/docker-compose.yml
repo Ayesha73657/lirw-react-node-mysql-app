@@ -1,0 +1,48 @@
+networks:
+  my_network:
+    driver: bridge
+
+services:
+
+  frontend:
+    image: frontend
+    container_name: my_app_frontend
+    networks:
+      - my_network
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+  backend:
+    image: backend
+    container_name: my_app_backend
+    networks:
+      - my_network
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-db
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: taskdb
+      MYSQL_USER: appuser
+      MYSQL_PASSWORD: app123
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+    networks:
+      - my_network
+
+volumes:
+  mysql-data:
