@@ -17,10 +17,10 @@ RUN npm run build
 
 FROM nginx 
 
-RUN rm -rf /var/lib/nginx/html/*
+RUN rm -rf /var/lib/www/html/*
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-COPY --from=build /app/dist /var/lib/nginx/html/
+COPY --from=build /app/dist /var/lib/www/html/
 
 CMD ["nginx", "-g", "daemon off;"]
