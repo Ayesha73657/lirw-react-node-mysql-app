@@ -20,7 +20,7 @@ services:
     networks:
       - my_network
     ports:
-      - "9000:9000"
+      - "3200:3200"
     depends_on:
       - mysql
 
