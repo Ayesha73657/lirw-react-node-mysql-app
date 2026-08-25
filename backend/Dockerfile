@@ -1,20 +1,20 @@
-# Use the official Node.js 14 image as a base image
-FROM node:14-alpine
+# Use Node.js 20 Alpine
+FROM node:20-alpine
 
-# Set the working directory in the container
+# Set working directory
 WORKDIR /app
 
-# Copy the package.json and package-lock.json files to the container
-COPY package*.json .
+# Copy package files first
+COPY package*.json ./
 
-# Install the application's dependencies inside the container
-RUN npm install
+# Install dependencies
+RUN npm ci --omit=dev
 
-# Copy the rest of the application code to the container
+# Copy backend source code
 COPY . .
 
-# Expose Port to the container
+# Application port
 EXPOSE 8080
 
-# Specify the command to run when the container starts
-CMD [ "node", "app.js" ]
+# Start the application
+CMD ["node", "server.js"]
