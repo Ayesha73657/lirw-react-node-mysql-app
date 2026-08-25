@@ -1,32 +1,57 @@
+version: '3.8'
+
 networks:
   my_network:
     driver: bridge
 
 services:
 
+  # =========================
+  # FRONTEND
+  # =========================
   frontend:
     image: frontend
     container_name: my_app_frontend
-    networks:
-      - my_network
+
     ports:
       - "8081:8081"
+
+    networks:
+      - my_network
+
     depends_on:
       - backend
 
+    restart: always
+
+
+  # =========================
+  # BACKEND
+  # =========================
   backend:
     image: backend
     container_name: my_app_backend
-    networks:
-      - my_network
+
     ports:
       - "3200:3200"
-    depends_on:
-      - mysql
 
+    networks:
+      - my_network
+
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+    restart: always
+
+
+  # =========================
+  # MYSQL DATABASE
+  # =========================
   mysql:
     image: mysql:8.0
     container_name: mysql-db
+
     restart: always
 
     environment:
@@ -35,6 +60,8 @@ services:
       MYSQL_USER: appuser
       MYSQL_PASSWORD: app123
 
+    ports:
+      - "3306:3306"
 
     volumes:
       - mysql-data:/var/lib/mysql
@@ -42,5 +69,26 @@ services:
     networks:
       - my_network
 
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "mysqladmin",
+          "ping",
+          "-h",
+          "localhost",
+          "-u",
+          "root",
+          "-proot123"
+        ]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 20s
+
+
+# =========================
+# VOLUMES
+# =========================
 volumes:
   mysql-data:
