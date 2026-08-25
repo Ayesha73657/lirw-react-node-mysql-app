@@ -5,7 +5,7 @@ FROM node:14-alpine
 WORKDIR /app
 
 # Copy the package.json and package-lock.json files to the container
-COPY package*.json ./
+COPY package*.json .
 
 # Install the application's dependencies inside the container
 RUN npm install
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8080
 
 # Specify the command to run when the container starts
-CMD [ "node", "index.js" ]
+CMD [ "node", "app.js" ]
