@@ -16,25 +16,25 @@ cd "$APP_DIR" || {
 case "$1" in
 
     start)
-        echo "$(date): Starting Docker Compose application..." >> "$LOG_FILE"
+        echo "$(date): Starting Docker Compose application..." 
         /usr/bin/docker compose up -d >> "$LOG_FILE" 2>&1
 
         if [ $? -eq 0 ]; then
-            echo "$(date): Application started successfully." >> "$LOG_FILE"
+            echo "$(date): Application started successfully." 
         else
-            echo "$(date): ERROR - Failed to start application." >> "$LOG_FILE"
+            echo "$(date): ERROR - Failed to start application." 
             exit 1
         fi
         ;;
 
     stop)
-        echo "$(date): Stopping Docker Compose application..." >> "$LOG_FILE"
+        echo "$(date): Stopping Docker Compose application..."  
         /usr/bin/docker compose down >> "$LOG_FILE" 2>&1
 
         if [ $? -eq 0 ]; then
-            echo "$(date): Application stopped successfully." >> "$LOG_FILE"
+            echo "$(date): Application stopped successfully." 
         else
-            echo "$(date): ERROR - Failed to stop application." >> "$LOG_FILE"
+            echo "$(date): ERROR - Failed to stop application." 
             exit 1
         fi
         ;;
